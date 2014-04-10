@@ -27,6 +27,7 @@
 @implementation HBCLAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	_attributedString = [[NSMutableAttributedString alloc] init];
 	_statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
 	_statusItem.highlightMode = YES;
 	_statusItem.menu = [[NSMenu alloc] init];
@@ -34,24 +35,27 @@
 	_dateMenuItem = [[NSMenuItem alloc] init];
 	_dateMenuItem.enabled = NO;
 	[_statusItem.menu addItem:_dateMenuItem];
+			
 	_timezoneMenuItem = [[NSMenuItem alloc] init];
 	_timezoneMenuItem.enabled = NO;
 	[_statusItem.menu addItem:_timezoneMenuItem];
 	
-	_attributedString = [[NSMutableAttributedString alloc] init];
+	// TODO: add different timezone options
 	
 	_timeFormatter = [[NSDateFormatter alloc] init];
-	_timeFormatter.dateFormat = @"EEE hh:mm a";
+	_timeFormatter.dateFormat = @"h:mm a";
+	
 	_dateFormatter = [[NSDateFormatter alloc] init];
 	_dateFormatter.dateFormat = @"EEEE, d MMMM y";
+	
 	_timezoneFormatter = [[NSDateFormatter alloc] init];
 	_timezoneFormatter.dateFormat = @"vvvv (Z)";
 	
 	_font = [NSFont menuBarFontOfSize:0];
-	_color = [NSColor colorWithCalibratedWhite:0.7f alpha:1];
+	_color = [NSColor colorWithCalibratedWhite:0.7f alpha:1];	// White (perfect for Obsidian Menu Bar)
 	
 	[self updateClock];
-	[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateClock) userInfo:nil repeats:YES];
+	[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateClock) userInfo:nil repeats:YES];
 }
 
 - (void)updateClock {
